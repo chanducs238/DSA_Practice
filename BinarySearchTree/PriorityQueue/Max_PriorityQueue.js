@@ -1,10 +1,11 @@
-class MaxBinaryHeap {
+class MaxPriorityQueue {
     constructor(){
         this.values = [];
     }
 
-    insert(element){
-        this.values.push(element);
+    enqueue(value, priority){
+        let newNode = new Node(value, priority);
+        this.values.push(newNode);
         this.bubbleUp();
     }
 
@@ -14,14 +15,14 @@ class MaxBinaryHeap {
         while(index > 0){
         let parentIndex = Math.floor((index-1)/2);
         let parentElement = this.values[parentIndex];
-        if(element <= parentElement) break;
+        if(element.priority <= parentElement.priority) break;
             this.values[parentIndex] = element;
             this.values[index] = parentElement;
             index = parentIndex;
         }
     }
 
-    extractMax(){
+    dequeue(){
         const max = this.values[0];
         const end = this.values.pop();
         if(this.values.length > 0){
@@ -44,14 +45,14 @@ class MaxBinaryHeap {
        
             if(leftChildIndex < length){
                 leftChild = this.values[leftChildIndex];
-                if(leftChild > element){
+                if(leftChild.priority > element.priority){
                     swap = leftChildIndex;
                 }
             }
             if(rightChildIndex < length) {
                 rightChild = this.values[rightChildIndex];
-                if((swap === null && rightChild > element) 
-                || (swap != null && rightChild > leftChild)) {
+                if((swap === null && rightChild.priority > element.priority) 
+                || (swap != null && rightChild.priority > leftChild.priority)) {
                     swap = rightChildIndex;
                 }
             }
@@ -63,11 +64,15 @@ class MaxBinaryHeap {
      }
 }
 
-heap = new MaxBinaryHeap();
-heap.insert(41);
-heap.insert(39);
-heap.insert(33);
-heap.insert(18);
-heap.insert(27);
-heap.insert(12);
-heap.insert(55);
+class Node {
+    constructor(value, priority){
+        this.value = value;
+        this.priority = priority;
+    }
+}
+
+maxPQ = new MaxPriorityQueue();
+maxPQ.enqueue('p1', 1);
+maxPQ.enqueue('p2', 2);
+maxPQ.enqueue('p3', 3);
+maxPQ.enqueue('p4', 4);
